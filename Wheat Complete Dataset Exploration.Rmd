@@ -1,0 +1,144 @@
+---
+title: "Wheat Complete Dataset Exploration"
+author: "Alyssa Schaeffer"
+date: "2026-09-08"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Q1 hypothesis: The yield of cereals is affected by six variables: 1) mean number of overwintering plants, 2) mean number of ears, 3) pH of the soil, 4) content of phosphorus, 5) content of potassium, and 6) content of magnesium.
+
+#Q2 variables: There are seven variables: yield, winter, ears, pH, P, K, and Mg. All seven variables are numerical and composed of continuous data. 
+
+#Q3 types of variables: The response variable (dependent variable) is the yield. The focal predictors (independent variables) are the other six variables -- winter, ears, pH, P, K, and Mg -- depending on which is being plotted for a given graph. The covariates are winter, ears, pH, P, K, and Mg, but dependent on which variable is being plotted as the independent.
+
+#Q4 descriptive statistics: 
+> library(readr)
+> wheat <- read_csv("wheat.csv")
+Rows: 100 Columns: 7                                                                      
+── Column specification ────────────────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (7): yield, winter, ears, pH, P, K, Mg
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+> View(wheat)
+
+> summary(wheat)
+     yield           winter           ears             pH              P         
+ Min.   :7.060   Min.   :162.0   Min.   :556.0   Min.   :5.200   Min.   : 33.00  
+ 1st Qu.:8.187   1st Qu.:234.8   1st Qu.:643.0   1st Qu.:5.575   1st Qu.: 50.00  
+ Median :8.587   Median :273.5   Median :710.0   Median :5.800   Median : 61.00  
+ Mean   :8.527   Mean   :275.6   Mean   :710.1   Mean   :5.852   Mean   : 65.34  
+ 3rd Qu.:8.938   3rd Qu.:315.8   3rd Qu.:764.0   3rd Qu.:6.100   3rd Qu.: 77.50  
+ Max.   :9.738   Max.   :401.0   Max.   :968.0   Max.   :7.000   Max.   :120.00  
+       K               Mg       
+ Min.   : 60.0   Min.   :38.00  
+ 1st Qu.: 84.0   1st Qu.:47.00  
+ Median : 97.5   Median :50.00  
+ Mean   :106.7   Mean   :50.87  
+ 3rd Qu.:114.2   3rd Qu.:54.00  
+ Max.   :324.0   Max.   :72.00  
+
+#The below dot charts, boxplots, and histograms are mainly for my own practice.
+
+#Feel free to skim through to the scatterplots.
+
+#Dot Charts:
+> dotchart(wheat$yield, xlab = 'Yield')
+> dotchart(wheat$winter, xlab = 'Overwinter')
+> dotchart(wheat$ears, xlab = 'Ears of Wheat')
+> dotchart(wheat$pH, xlab = 'pH')
+> dotchart(wheat$P, xlab = 'Phosphorus (P)')
+> dotchart(wheat$K, xlab = 'Potassium (K)')
+> dotchart(wheat$Mg, xlab = 'Magnesium (Mg)')
+
+#Boxplots:
+> boxplot(wheat$yield, ylab = 'Yield')
+> boxplot(wheat$winter, ylab = 'Overwinter')
+> boxplot(wheat$ears, ylab = 'Ears of Wheat')
+> boxplot(wheat$pH, ylab = 'pH')
+> boxplot(wheat$P, ylab = 'Phosphorus (P)')
+> boxplot(wheat$K, ylab = 'Potassium (K)')
+> boxplot(wheat$Mg, ylab = 'Magnesium (Mg)')
+
+#Histogram:
+> hist(wheat$yield, xlab = 'Yield')
+> hist(wheat$winter, xlab = 'Overwinter')
+> hist(wheat$ears, xlab = 'Ears of Wheat')
+> hist(wheat$pH, xlab = 'pH')
+> hist(wheat$P, xlab = 'Phosphorus (P)')
+> hist(wheat$K, xlab = 'Potassium (K)')
+> hist(wheat$Mg, xlab = 'Magnesium (Mg)')
+
+#Comparative Scatterplots:
+> plot(wheat[,1:2], xlab = 'Yield', ylab = 'Overwinter', main = 'Yield vs. Overwinter')
+> plot(wheat[,c(1,3)], xlab = 'Yield', ylab = 'Ears of Wheat', main = 'Yield vs. Ears of Wheat')
+> plot(wheat[,c(1,4)], xlab = 'Yield', ylab = 'pH', main = 'Yield vs. pH')
+> plot(wheat[,c(1,5)], xlab = 'Yield', ylab = 'Phosphorus (P)', main = 'Yield vs. Phosphorus (P)')
+> plot(wheat[,c(1,6)], xlab = 'Yield', ylab = 'Potassium (K)', main = 'Yield vs. Potassium (K)')
+> plot(wheat[,c(1,7)], xlab = 'Yield', ylab = 'Magnesium (Mg)', main = 'Yield vs. Magnesium (Mg)')
+
+#Pairwise Scatterplots:
+> pairs(wheat[,1:2], main = 'Yield vs. Overwinter')
+> pairs(wheat[,c(1,3)], main = 'Yield vs. Ears of Wheat')
+> pairs(wheat[,c(1,4)], main = 'Yield vs. pH')
+> pairs(wheat[,c(1,5)], main = 'Yield vs. Phosphorus (P)')
+> pairs(wheat[,c(1,6)], main = 'Yield vs. Potassium (K)')
+> pairs(wheat[,c(1,7)], main = 'Yield vs. Magnesium (Mg)')
+
+#Scatterplot Matrix:
+> pairs(wheat[,1:7], main = 'Wheat Scatterplot Matrix')
+
+#Correlation Matrix:
+> library(corrplot)
+corrplot 0.95 loaded
+Warning message:
+package ‘corrplot’ was built under R version 4.5.3 
+
+> cor(wheat[,1:7])
+             yield     winter       ears          pH           P           K         Mg
+yield   1.00000000 0.42988096 0.16606022 -0.09644048 -0.10461012 -0.13229603 0.13859182
+winter  0.42988096 1.00000000 0.05396626  0.29554385  0.20462987  0.16882346 0.14321028
+ears    0.16606022 0.05396626 1.00000000  0.09744423  0.07908143  0.09593321 0.06150248
+pH     -0.09644048 0.29554385 0.09744423  1.00000000  0.70291185  0.27524495 0.16104252
+P      -0.10461012 0.20462987 0.07908143  0.70291185  1.00000000  0.33669686 0.01506208
+K      -0.13229603 0.16882346 0.09593321  0.27524495  0.33669686  1.00000000 0.11933173
+Mg      0.13859182 0.14321028 0.06150248  0.16104252  0.01506208  0.11933173 1.00000000
+
+> wheatcor <- cor(wheat[,1:7])
+> corrplot::corrplot(wheatcor)
+
+> corrplot::corrplot(wheatcor, method = 'ellipse')
+
+#Comments on Observed Patterns:
+#Generally, when each of the six covariates -- winter, ears, pH, P, K, and Mg -- are analyzed as the focal predictor to the response variable -- yield -- the greater the value of the focal predictor, the greater the yield of wheat. However, there are some exceptions. 
+
+#Yield vs. pH has an inverse relationship where, when the pH fell, the yield of wheat generally increased. Yield vs. Phosphorus (P) indicates that the greatest yield of wheat occurred when phosphorus was between 70-90 mg/kg. For Yield vs. Potassium (K), the greatest yield of wheat occurred when potassium was about 100 mg/kg, though there are a couple of outliers near, and greater than, 300 mg/kg potassium. With Yield vs. Magnesium (Mg), the data is far more widespread, where values of 45 up to ~80 mg/kg of magnesium can all produce high yields of wheat. 
+
+#Overall, these data indicate that the greater the overwinter and ears of wheat survival rates, the greater the yield of wheat. Additionally, optimal mg/kg of the elements phosphorus, potassium, and magnesium in the soil, can also increase the yield of wheat. The pH of the soil is the one variable that, when at lower values, results in a greater yield of wheat.
